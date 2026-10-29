@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Super Valentim & João Gabriel - Aventura Retrô 16-Bit</title>
+    <meta name="description" content="Jogo de plataforma infantil inspirado em Super Mario World (SNES) e Sonic 2 (Mega Drive). Com Valentim (5 anos) e João Gabriel correndo juntos!">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Header & Quick Controls -->
+    <header class="arcade-header">
+        <div class="logo-badge">
+            <h1>SUPER VALENTIM & JOÃO GABRIEL</h1>
+            <span class="sub-tag">SNES & MEGA DRIVE</span>
+        </div>
+        <div class="header-controls">
+            <button id="btn-sound" class="retro-btn" title="Ligar/Desligar Som">
+                🔊 Som
+            </button>
+            <button id="btn-crt" class="retro-btn" title="Efeito Tubo CRT">
+                📺 CRT
+            </button>
+            <button id="btn-help" class="retro-btn" title="Instruções de Jogo">
+                ❓ Ajuda
+            </button>
+            <button id="btn-fullscreen" class="retro-btn" title="Tela Cheia">
+                ⛶ Tela Cheia
+            </button>
+        </div>
+    </header>
+
+    <!-- Arcade Cabinet Screen Container -->
+    <main class="cabinet-wrapper">
+        <div id="canvas-container">
+            <canvas id="gameCanvas"></canvas>
+            <div id="crt-overlay" class="crt-overlay"></div>
+        </div>
+    </main>
+
+    <!-- Mobile / Tablet On-Screen Touch Controls -->
+    <section class="mobile-controls">
+        <div class="touch-dpad">
+            <button id="btn-left" class="touch-btn" aria-label="Esquerda">◀</button>
+            <button id="btn-down" class="touch-btn" aria-label="Abaixar / Spin Dash">▼</button>
+            <button id="btn-right" class="touch-btn" aria-label="Direita">▶</button>
+        </div>
+        <div class="touch-actions">
+            <button id="btn-spin" class="touch-btn spin-btn" aria-label="Giro / Correr">X</button>
+            <button id="btn-jump" class="touch-btn jump-btn" aria-label="Pular">A</button>
+        </div>
+    </section>
+
+    <!-- Control Guides & Character Lore Cards -->
+    <section class="instructions-panel">
+        <div class="guide-card">
+            <h3>🔴 Valentim (5 anos) - Herói</h3>
+            <ul>
+                <li><span class="key-tag">Setas</span> ou <span class="key-tag">A / D</span> : Andar e Correr</li>
+                <li><span class="key-tag">Espaço</span> ou <span class="key-tag">Z</span> : Pulo Normal</li>
+                <li><span class="key-tag">X</span> ou <span class="key-tag">Shift</span> : Pulo Giratório (SMW) / Correr Rápido</li>
+                <li><span class="key-tag">Seta Baixo</span> + <span class="key-tag">Pulo</span> : <b>Spin Dash do Sonic 2</b> (segure e solte!)</li>
+                <li><span class="key-tag">Segurar Pulo no ar</span> : <b>Planar com a Capa Amarela!</b></li>
+            </ul>
+        </div>
+
+        <div class="guide-card">
+            <h3>🍼 João Gabriel (Bebê de 6 meses)</h3>
+            <ul>
+                <li><b>De Mãos Dadas</b>: O pequeno João Gabriel anda juntinho de mãos dadas com o Valentim o tempo todo!</li>
+                <li><b>Visual Fofo</b>: Usando seu body de bebê, sapatinhos, sua chupetinha e segurando seu inseparável <b>paninho branco</b> (estilo o Lino do Peanuts)!</li>
+                <li><b>Irmão Companheiro</b>: Pula, corre e rola junto com o Valentim na maior segurança e alegria!</li>
+            </ul>
+        </div>
+
+        <div class="guide-card">
+            <h3>⭐ Referências Mario World & Sonic 2</h3>
+            <ul>
+                <li><b>Moedas & Anéis</b>: Pegue 100 para ganhar 1-UP! Anéis te protegem de perder vidas!</li>
+                <li><b>Blocos [?]</b>: Acerte por baixo para pegar Moedas, Super Cogumelo e Sapatos do Sonic!</li>
+                <li><b>Molas e Tubos</b>: Pule nas molas vermelhas para voar alto e use os canos verdes!</li>
+                <li><b>Final da Fase</b>: Fita do Super Mario World que sobe e desce + Placa giratória do Sonic!</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- Modal de Instruções Completo -->
+    <div id="help-modal" class="modal-overlay">
+        <div class="modal-content">
+            <h2>🎮 Super Valentim & João Gabriel</h2>
+            <p>Este jogo infantil foi feito especialmente para os irmãos <b>Valentim</b> (5 anos) e <b>João Gabriel</b> (um bebezinho fofo de 6 meses)!</p>
+            <p>• <b>Irmãos Unidos</b>: O Valentim guia o bebezinho João Gabriel <b>segurando na mãozinha dele</b> durante toda a fase. Com a outra mãozinha, o João Gabriel carrega o seu <b>paninho branco</b> (igual ao Lino do Peanuts), de body, sapatinhos e chupetinha!</p>
+            <p>• <b>Jogabilidade Clássica</b>: Carregue o <i>Spin Dash</i> abaixando e apertando pulo para disparar veloz pelas colinas, plane com a capa amarela do Mario, pule nas molas do Sonic e chegue até a fita de chegada!</p>
+            <button id="btn-close-modal" class="modal-close-btn">Entendido! Vamos Jogar!</button>
+        </div>
+    </div>
+
+    <!-- Script Imports in Dependency Order -->
+    <script src="js/audio.js"></script>
+    <script src="js/sprites.js"></script>
+    <script src="js/physics.js"></script>
+    <script src="js/entities.js"></script>
+    <script src="js/level.js"></script>
+    <script src="js/game.js"></script>
+
+    <script>
+        // Header Buttons Interactivity
+        const btnSound = document.getElementById('btn-sound');
+        btnSound.addEventListener('click', () => {
+            const isMuted = window.gameAudio.toggleMute();
+            btnSound.textContent = isMuted ? '🔇 Mudo' : '🔊 Som';
+            btnSound.style.borderColor = isMuted ? '#ff3b30' : '#ffd166';
+        });
+
+        const btnCrt = document.getElementById('btn-crt');
+        const crtOverlay = document.getElementById('crt-overlay');
+        btnCrt.addEventListener('click', () => {
+            const isShown = crtOverlay.style.display !== 'none';
+            crtOverlay.style.display = isShown ? 'none' : 'block';
+            btnCrt.style.borderColor = isShown ? '#666' : '#ffd166';
+        });
+
+        const btnFullscreen = document.getElementById('btn-fullscreen');
+        btnFullscreen.addEventListener('click', () => {
+            const container = document.getElementById('canvas-container');
+            if (!document.fullscreenElement) {
+                container.requestFullscreen?.() || container.webkitRequestFullscreen?.();
+            } else {
+                document.exitFullscreen?.();
+            }
+        });
+
+        const helpModal = document.getElementById('help-modal');
+        const btnHelp = document.getElementById('btn-help');
+        const btnCloseModal = document.getElementById('btn-close-modal');
+        btnHelp.addEventListener('click', () => { helpModal.classList.add('active'); });
+        btnCloseModal.addEventListener('click', () => { helpModal.classList.remove('active'); });
+        helpModal.addEventListener('click', (e) => {
+            if (e.target === helpModal) helpModal.classList.remove('active');
+        });
+    </script>
+</body>
+</html>
